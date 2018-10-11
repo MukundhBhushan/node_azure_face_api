@@ -14,11 +14,16 @@
 
   <div class="container">
   <h1>face api</h1>
+  <br>
+  
   <form method="POST" action="/posted">
-    <div class="form-group">
-      <label for="exampleFormControlFile1">Example file input</label>
-      <input type="file" class="form-control-file" id="exampleFormControlFile1">
-    </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1"> Choose file</label>
+    <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="input" required>
+    <small id="emailHelp" class="form-text text-muted">upload file to blob storage</small>
+    
+  </div>
+  <button type="submit" class="btn btn-primary" dis >Submit</button>
   </form>
   </div>
   </body>
