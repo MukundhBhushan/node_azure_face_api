@@ -1,76 +1,60 @@
-
 const request = require('request');
-const express=require('express')
-const bodyParser=require('body-parser')
-const path = require('path')
-const ejs=require('ejs')
-
-
-var app = express();
-
-// Replace <Subscription Key> with your valid subscription key.
-const subscriptionKey = '<Subscription Key>';
-
-// You must use the same location in your REST call as you used to get your
-// subscription keys. For example, if you got your subscription keys from
-// westus, replace "westcentralus" in the URL below with "westus".
-// const uriBase =
-//     'https://westcentralus.api.cognitive.microsoft.com/vision/v2.0/analyze';
-
-// const imageUrl =
-//     'http://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall.jpg';
-
-
-// const params = {
-//     'visualFeatures': 'Categories,Description,Color',
-//     'details': '',
-//     'language': 'en'
-// };
-
-//body: '{"url": ' + '"' + imageUrl + '"}',
-
-// const options = {
-//     uri: uriBase,
-//     qs: params,
-    
-    
-//     body: var st=`url:'${imageUrl}'`
-//     headers: {
-//         'Content-Type': 'application/json',
-//         'Ocp-Apim-Subscription-Key' : subscriptionKey
-//     }
-// };
-
-// request.post(options, (error, response, body) => {
-//   if (error) {
-//     console.log('Error: ', error);
-//     return;
-//   }
-//   let jsonResponse = JSON.stringify(JSON.parse(body), null, '  ');
-//   console.log('JSON Response\n');
-//   console.log(jsonResponse);
-// });
-
-
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.json());
-
-
-app.set('view engine', 'ejs') 
-app.set('views',path.join(__dirname,'views'))
-
-
-app.get('/',(req,res)=>{
-    res.render('homePage')
-})
-
-
-app.get('/uploaded',(req,res)=>{
-
-    res.render('uploaded')
-
-})
+const path = require('path');
+const storage = require('azure-storage');
+const multer = require('multer')
+const inMemoryStorage = multer.memoryStorage()
+const uploadStrategy = multer({ storage: inMemoryStorage }).single('image')
+const getStream = require('into-stream')
+const containerName = 'faceapi'
 
 
 
-app.listen(process.env.PORT||3000)
+const blobService = azureStorage.createBlobService()
+
+const uploadLocalFile = async (containerName, filePath) => {
+    return new Promise((resolve, reject) => {
+        const fullPath = path.resolve(filePath);
+        const blobName = path.basename(filePath);
+        blobService.createBlockBlobFromLocalFile(containerName, blobName, fullPath, err => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve({ message: `Local file "${filePath}" is uploaded` });
+            }
+        });
+    });
+};
+
+const imageUrl ='https://upload.wikimedia.org/wikipedia/commons/3/37/Dagestani_man_and_woman.jpg';
+
+
+const params = {
+    'returnFaceId': 'true',
+    'returnFaceLandmarks': 'false',
+    'returnFaceAttributes': 'age,gender,headPose,smile,facialHair,glasses,' +
+        'emotion,hair,makeup,occlusion,accessories,blur,exposure,noise'
+};
+
+const options = {
+    uri: uriBase,
+    qs: params,
+    body: '{"url": ' + '"' + imageUrl + '"}',
+    headers: {
+        'Content-Type': 'application/json',
+        'Ocp-Apim-Subscription-Key' : subscriptionKey
+    }
+};
+
+
+
+request.post(options, (error, response, body) => {
+  if (error) {
+    console.log('Error: ', error);
+    return;
+  }
+  let jsonResponse = JSON.stringify(JSON.parse(body), null, '  ');
+  console.log('JSON Response\n');
+  console.log(jsonResponse);
+});
+
+
