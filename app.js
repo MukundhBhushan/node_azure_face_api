@@ -122,7 +122,7 @@ app.post('/uploaded', uploadStrategy, (req, res) => {
                 sadness:emoj['sadness']*100 ,
                 surprise:emoj['surprise']*100 
             })
-          });
+          }) ;
 
         if(err) {
             handleError(err);
