@@ -86,11 +86,11 @@ app.post('/uploaded', uploadStrategy, (req, res) => {
             let jsonResponse = JSON.stringify(JSON.parse(body), null, '  ');
             console.log('JSON Response\n');
             jsonPar=JSON.parse(body)
-            len_json=jsonPar.lenght
+            len_json=jsonPar[0].lenght
             console.log(jsonPar[0].faceAttributes.gender)
-            var gen=JSON.stringify(jsonPar.faceAttributes.gender)
-            var emotion=JSON.stringify(jsonPar.faceAttributes.emotion)
-            var emoj=jsonPar.faceAttributes.emotion
+            var gen=JSON.stringify(jsonPar[0].faceAttributes.gender)
+            var emotion=JSON.stringify(jsonPar[0].faceAttributes.emotion)
+            var emoj=jsonPar[0].faceAttributes.emotion
             console.log("emoj",emoj)
 
 
