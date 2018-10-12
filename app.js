@@ -23,12 +23,12 @@ app.set('view engine', 'ejs')
 app.set('views',path.join(__dirname,'views'))
 
 
-const blobService = azureStorage.createBlobService('cognitiveapifile','KdF8+Qj3b3dWCKs9NXtCvXhiGnOB1FkJiUPs3uD2+1dnEhAf/k68BBkX0ivu4tgOv0equeJ1+qXqsz+P1pDIlw==')
+const blobService = azureStorage.createBlobService('<container name>','<key>')
 
 
-//const imageUrl ='https://upload.wikimedia.org/wikipedia/commons/3/37/Dagestani_man_and_woman.jpg';
-subscriptionKeyFaceApi = '3cbd061045ef453b871aadaba12835c8';
-uriBaseFaceApi = 'https://centralindia.api.cognitive.microsoft.com/face/v1.0/detect';
+
+subscriptionKeyFaceApi = '<face api key>';
+uriBaseFaceApi = '<face api uri>/detect';
 
 const params = {
     'returnFaceId': 'true',
